@@ -56,12 +56,24 @@ public class Main {
         return -1;
     }
 
+    public static int findMaxValueIndex(int[] array) {
+        int left = 1;
+        int right = array.length;
+
+        while (left <= right) {
+            int k = (left + right) / 2;
+            if (array[k + 1] > array[k]) {
+                left = k + 1;
+            } else if (array[k + 1] < array[k]) {
+                right = k - 1;
+            }
+        }
+
+        return left;
+    }
+
     public static void main(String[] args) {
-        int[] array = new int[] { 1, 2, 3, 3, 3, 3, 3, 5, 6, 7, 8 };
-        // Given a sorted array of integers A and an integer x, find an index of x in A
-        // or return -1 if x is not in A.
-        // System.out.println(findIndexOf(3, array));
-        System.out.println(findFirstIndexOf(3, array));
-        System.out.println(findLastIndexOf(3, array));
+        int[] array = new int[] { 1, 2, 3, 4, 3, 2, 1 };
+        System.out.println(findMaxValueIndex(array));
     }
 }
