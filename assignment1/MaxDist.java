@@ -5,12 +5,11 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 import java.util.Scanner;
 
- 
 public class MaxDist {
-	
-	public static void main(String[] args) {
+
+  public static void main(String[] args) {
     FastScanner in = new FastScanner();
- 		PrintWriter out = new PrintWriter(System.out);
+    PrintWriter out = new PrintWriter(System.out);
 
     int t = in.nextInt();
     for (int i = 0; i < t; i++) {
@@ -18,32 +17,37 @@ public class MaxDist {
       int k = in.nextInt();
 
       int a[] = new int[n];
-      for (int j = 0; j < n; j++) a[j] = in.nextInt();
+      for (int j = 0; j < n; j++)
+        a[j] = in.nextInt();
       out.println(solve(a, k));
     }
 
     out.close();
-	}
+  }
 
   public static int solve(int a[], int k) {
-    // WRITE YOUR CODE HERE
+    int maxD = 0;
+
+    
+
+    return maxD;
   }
 
   static class FastScanner {
-      BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-      StringTokenizer st=new StringTokenizer("");
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer("");
 
-      String next() {
-        while (!st.hasMoreTokens())
-          try { 
-            st=new StringTokenizer(br.readLine());				              
-          } catch (IOException e) {}
-        return st.nextToken();
-      }
-      
-      int nextInt() {
-        return Integer.parseInt(next());
-      }
+    String next() {
+      while (!st.hasMoreTokens())
+        try {
+          st = new StringTokenizer(br.readLine());
+        } catch (IOException e) {
+        }
+      return st.nextToken();
+    }
+
+    int nextInt() {
+      return Integer.parseInt(next());
+    }
   }
 }
-

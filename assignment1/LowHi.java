@@ -6,11 +6,9 @@ import java.util.StringTokenizer;
 import java.util.Scanner;
 
 public class LowHi {
-
   public static void main(String[] args) {
     FastScanner in = new FastScanner();
     PrintWriter out = new PrintWriter(System.out);
-
     int n = in.nextInt();
     int a[] = new int[n];
     for (int i = 0; i < n; i++) {
@@ -20,30 +18,54 @@ public class LowHi {
     for (int i = 0; i < m; i++) {
       int low = in.nextInt();
       int hi = in.nextInt();
-
       out.println(count_between(a, low, hi));
     }
     out.close();
   }
 
   public static int count_between(int a[], int lo, int hi) {
-    int left = 1;
-    int right = a.length;
+    int left = 0;
+    int right = a.length - 1;
+    int lowerBound = -1;
+    int upperBound = -1;
 
     while (left <= right) {
       int mid = (left + right) / 2;
-      
 
-      if (a[mid] < lo) {
+      // if mid is greater or equal to low, shift right bound to before mid. set lower
+      // bound as mid.
+      if (a[mid] >= lo) {
+        right = mid - 1;
+        lowerBound = mid;
+      } else {
+        // else mid is less than low. therefore move the left pointer to after mid.
         left = mid + 1;
-      } else if (a[mid] > hi) {
+      }
+    }
+
+    left = 0;
+    right = a.length - 1;
+
+    while (left <= right) {
+      int mid = (left + right) / 2;
+
+      // if mid is less than or equal to high, we know that we must move the left
+      // pointer to one after mid
+      if (a[mid] <= hi) {
+        left = mid + 1;
+        upperBound = mid;
+      } else {
+        // else mid is greater than high. move the right pointer to one before mid
         right = mid - 1;
       }
     }
 
-    System.out.println(left + "/" + right);
+    // if any bounds are invalid, return a 0
+    if (lowerBound == -1 || upperBound == -1 || lowerBound > upperBound) {
+      return 0;
+    }
 
-    return -1;
+    return upperBound - lowerBound + 1;
   }
 
   static class FastScanner {
