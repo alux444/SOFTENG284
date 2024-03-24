@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-public class AVL {
+public class AVL2 {
 
     public class Node {
         public int key;
@@ -67,14 +67,10 @@ public class AVL {
             }
             Node x = y.left;
 
-            if (x == null) {
-                return; // No rotation is needed if x is null
-            }
-
-            // set the left pointer of the y node to the left node's right child.
+            // set the left pointer of the y node to the the left node's right child.
             y.left = x.right;
             if (x.right != null) {
-                // if there was a node, update that node's new parent
+                // if there was a node, update that nodes new parent
                 x.right.parent = y;
             }
 
@@ -85,7 +81,7 @@ public class AVL {
                 // if the parent was null it was the root.
                 root = x;
             } else if (y == y.parent.left) {
-                // otherwise, if y wasn't the root, it is either the left or right root.
+                // otherwise, if y wasnt the root, it is either the left or right root.
                 // update the parent accordingly
                 y.parent.left = x;
             } else {
@@ -100,29 +96,84 @@ public class AVL {
             updateHeight(x);
         }
 
+        // public void fixTree(Node node) {
+        // if (node == null) {
+        // return;
+        // }
+
+        // updateHeight(node);
+
+        // // get balance of our current node
+        // int balance = getBalance(node);
+
+        // if (balance > 1) {
+        // // if balance is > 1 we know the tree is left skewed
+        // if (getBalance(node.left) >= 0) {
+        // // if the balance of the left is >= 0 we know it is left skewed or even. this
+        // // will be a situation of case 1, where we want to rotate the left node
+        // itself
+        // // up to the root.
+        // rotateLeft(node);
+        // } else {
+        // // otherwise we know that the balance of the leftside is rightskewed.
+        // // we want to rotate the right node of the left node twice.
+        // rotateRight(node.left);
+        // // after rotating once, we know it is now where the left node of the root is.
+        // rotateLeft(node);
+        // }
+        // } else if (balance < -1) {
+        // // if balance of the right is <= -1 we know it is right skewed
+        // if (getBalance(node.right) <= 0) {
+        // // case 1. we want to rotate the right node once.
+        // rotateRight(node);
+        // } else {
+        // // case 2. we want to rotate the right node of the child of our right root
+        // node.
+        // rotateRight(node.right);
+        // // after rotating, we need to rotate the right node once.
+        // rotateRight(node);
+        // }
+        // }
+
+        // // fix the tree for all the parent nodes
+        // fixTree(node.parent);
+        // }
+
         public void fixTree(Node node) {
             while (node != null) {
                 updateHeight(node);
 
+                // get balance of our current node
                 int balance = getBalance(node);
 
                 if (balance > 1) {
+                    // If balance is > 1 we know the tree is left-skewed
                     if (getBalance(node.left) >= 0) {
-                        rotateRight(node);
+                        // If the balance of the left is >= 0, it is left-skewed or even.
+                        // This is a situation of case 1, where we want to rotate the left node itself
+                        // up to the root.
+                        rotateLeft(node);
                     } else {
-                        rotateLeft(node.left);
-                        rotateRight(node);
+                        // Otherwise, we know that the balance of the left side is right-skewed.
+                        // We want to rotate the right node of the left node twice.
+                        rotateRight(node.left);
+                        // After rotating once, we know it is now where the left node of the root is.
+                        rotateLeft(node);
                     }
                 } else if (balance < -1) {
+                    // If balance of the right is <= -1, we know it is right-skewed.
                     if (getBalance(node.right) <= 0) {
-                        rotateLeft(node);
+                        // Case 1. We want to rotate the right node once.
+                        rotateRight(node);
                     } else {
+                        // Case 2. We want to rotate the right node of the child of our right root node.
                         rotateRight(node.right);
-                        rotateLeft(node);
+                        // After rotating, we need to rotate the right node once.
+                        rotateRight(node);
                     }
-                }
 
-                node = node.parent;
+                }
+                node = node.parent; // Move up the tree
             }
         }
 
@@ -261,7 +312,6 @@ public class AVL {
             int leftHeight = (node.left != null) ? getHeight(node.left) : 0;
             int rightHeight = (node.right != null) ? getHeight(node.right) : 0;
             node.height = 1 + Math.max(leftHeight, rightHeight);
-
         }
 
         public int getHeight(Node node) {
@@ -309,14 +359,14 @@ public class AVL {
     }
 
     public static void main(String[] args) throws IOException {
-        AVL avl = new AVL();
+        AVL2 avl = new AVL2();
         Avl avlTree = avl.new Avl();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder out = new StringBuilder();
 
-        for (int i = 0; i < 10000; i++) {
-            // String in = reader.readLine();
-            String in = generateRandomString();
+        for (int i = 0; i < 1000000; i++) {
+            String in = reader.readLine();
+            // String in = generateRandomString();
             String[] numbers = in.split(" ");
             int command = Integer.parseInt(numbers[0]);
             int key = Integer.parseInt(numbers[1]);
@@ -332,6 +382,5 @@ public class AVL {
             }
         }
         System.out.println(out.toString());
-        System.out.println(avlTree.getGreatestHeight());
     }
 }
